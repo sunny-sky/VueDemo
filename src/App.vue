@@ -10,8 +10,8 @@
       </div>
     </header>
     <div class="container">
-      <Add></Add>
-      <List :comments="comments"></List>
+      <Add :addComment="addComment"></Add>
+      <List :comments="comments" :deleteComment="deleteComment"></List>
     </div>
   </div>
 </template>
@@ -37,6 +37,18 @@ export default {
           content: 'Vue so so'
         }
       ]
+    }
+  },
+
+  methods: {
+    // 添加评论
+    addComment (comment) {
+      this.comments.unshift(comment)
+    },
+
+    // 删除指定下标评论
+    deleteComment (index) {
+      this.comments.splice(index, 1)
     }
   },
 
