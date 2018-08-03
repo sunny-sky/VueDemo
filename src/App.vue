@@ -2,7 +2,7 @@
   <div class="todo-container">
     <div  class="todo-wrap">
       <TodoHeader></TodoHeader>
-      <TodoList :todos="todos"></TodoList>
+      <TodoList :todos="todos" :deleteTodo="deleteTodo"></TodoList>
       <TodoFooter></TodoFooter>
     </div>
   </div>
@@ -20,6 +20,11 @@
           {title: '睡觉', complete: true},
           {title: 'coding', complete: false}
         ]
+      }
+    },
+    methods: {
+      deleteTodo (index) {
+        this.todos.splice(index, 1)
       }
     },
     components: {
