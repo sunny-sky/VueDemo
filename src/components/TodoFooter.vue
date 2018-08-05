@@ -1,11 +1,39 @@
 <template>
   <div class="todo-footer">
-
+    <label>
+      <input type="checkbox" v-model="isAllCheck">
+    </label>
+    <span>
+      <span>已完成{{completeSize}}</span>/全部{{todos.length}}
+    </span>
+    <button class="btn btn-danger" v-show="completeSize>0" @click="deleteCompleteTodos">清除已完成任务</button>
   </div>
 </template>
 
 <script>
-  export default {}
+  export default {
+    props: {
+      todos: Array,
+      deleteCompleteTodos: Function,
+      selectAllTodos: Function
+    },
+
+    computed: {
+      completeSize () {
+        return this.todos.reduce((preTotal, todo) => preTotal + (todo.complete?1:0),0)
+      },
+
+      isAllCheck: {
+        get () {
+          return this.completeSize===this.todos.length && this.completeSize>0
+        },
+
+        set (value) {
+          this.selectAllTodos(value)
+        }
+      }
+    }
+  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
