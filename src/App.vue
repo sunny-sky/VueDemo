@@ -1,49 +1,86 @@
 <template>
   <div class="todo-container">
     <div  class="todo-wrap">
-      <TodoHeader :addTodo="addTodo"></TodoHeader>
-      <TodoList :todos="todos" :deleteTodo="deleteTodo"></TodoList>
-      <TodoFooter :todos="todos" :deleteCompleteTodos="deleteCompleteTodos" :selectAllTodos="selectAllTodos"></TodoFooter>
+      <!--<TodoHeader @addTodo="addTodo"></TodoHeader>--><!--给TodoHeader标签对象绑定addTodo事件监听-->
+      <TodoHeader ref="header"></TodoHeader>
+      <TodoList :todos="todos"></TodoList>
+      <TodoFooter>
+        <input type="checkbox" v-model="isAllCheck" slot="checkAll">
+        <span slot="count">已完成{{completeSize}}/全部{{todos.length}}</span>
+        <button slot="deleteComplete" class="btn btn-danger" v-show="completeSize>0" @click="deleteCompleteTodos">清除已完成任务</button>
+      </TodoFooter>
     </div>
   </div>
 </template>
 
 <script>
-  import TodoHeader from './components/TodoHeader.vue'
-  import TodoList from './components/TodoList.vue'
-  import TodoFooter from './components/TodoFooter.vue'
-  export default {
-    data () {
-      return {
-        todos: [
-          {title: '吃饭', complete: false},
-          {title: '睡觉', complete: true},
-          {title: 'coding', complete: false}
-        ]
-      }
+import TodoHeader from './components/TodoHeader.vue'
+import TodoList from './components/TodoList.vue'
+import TodoFooter from './components/TodoFooter.vue'
+import PubSub from 'pubsub-js'
+export default {
+  data () {
+    return {
+      // 从localstory读取todos
+      todos: JSON.parse(window.localStorage.getItem('todos_key') || '[]')
+    }
+  },
+  computed: {
+    completeSize () {
+      return this.todos.reduce((preTotal, todo) => preTotal + (todo.complete ? 1 : 0), 0)
     },
-    methods: {
-      addTodo (todo) {
-        this.todos.unshift(todo)
+
+    isAllCheck: {
+      get () {
+        return this.completeSize === this.todos.length && this.completeSize > 0
       },
 
-      deleteTodo (index) {
-        this.todos.splice(index, 1)
-      },
-      deleteCompleteTodos () {
-        this.todos = this.todos.filter(todo => !todo.complete)
-      },
-      // 全选/全不选
-      selectAllTodos (check) {
-        this.todos.forEach(todo => todo.complete = check)
+      set (value) {
+        this.selectAllTodos(value)
       }
-    },
-    components: {
-      TodoHeader,
-      TodoList,
-      TodoFooter
     }
+  },
+  mounted () { // 执行异步代码
+    // 给<TodoHeader></TodoHeader>绑定addTodo事件监听
+    // this.$on('addTodo', this.addTodo) // 给APP绑定的监听，不对
+    this.$refs.header.$on('addTodo', this.addTodo)
+
+    // 订阅消息
+    PubSub.subscribe('deleteTodo', (msg, index) => {
+      this.deleteTodo(index)
+    })
+  },
+  watch: {
+    todos: {
+      deep: true, // 深度监视
+      handler: function (value) {
+        // 将todos最新值的JSON数据，保存到localStorage
+        window.localStorage.setItem('todos_key', JSON.stringify(value))
+      }
+    }
+  },
+  methods: {
+    addTodo (todo) {
+      this.todos.unshift(todo)
+    },
+
+    deleteTodo (index) {
+      this.todos.splice(index, 1)
+    },
+    deleteCompleteTodos () {
+      this.todos = this.todos.filter(todo => !todo.complete)
+    },
+    // 全选/全不选
+    selectAllTodos (check) {
+      this.todos.forEach(todo => (todo.complete = check))
+    }
+  },
+  components: {
+    TodoHeader,
+    TodoList,
+    TodoFooter
   }
+}
 </script>
 
 <style scoped>
@@ -55,5 +92,29 @@
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
+  }
+  .todo-footer {
+    height: 40px;
+    line-height: 40px;
+    padding-left: 6px;
+    margin-top: 5px;
+  }
+
+  .todo-footer label {
+    display: inline-block;
+    margin-right: 20px;
+    cursor: pointer;
+  }
+
+  .todo-footer label input {
+    position: relative;
+    top: -1px;
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+
+  .todo-footer button {
+    float: right;
+    margin-top: 5px;
   }
 </style>

@@ -11,6 +11,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "pubsub-js": "^1.6.0",
     "vue": "^2.5.2"
   },
   "devDependencies": {
