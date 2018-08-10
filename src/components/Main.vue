@@ -23,7 +23,7 @@ export default {
     return {
       firstView: true,
       loading: false,
-      users: null,  // [{url: '', avatar_url: '', name: ''}]
+      users: null, // [{url: '', avatar_url: '', name: ''}]
       errorMsg: ''
     }
   },
@@ -49,13 +49,12 @@ export default {
         // 成功，更新状态
         this.loading = false
         this.users = users
+        // eslint-disable-next-line
       }).catch(error => {
         // 失败，更新状态
         this.loading = false
         this.errorMsg = '请求失败'
       })
-
-
     })
   }
 }
