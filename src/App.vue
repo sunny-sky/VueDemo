@@ -1,53 +1,38 @@
 <template>
-  <div>
-    <div v-if="!repoUrl">loading</div>
-    <div v-else>most star repo is <a :href="repoUrl">{{repoName}}</a></div>
+  <div class="container">
+    <Search></Search>
+    <users-main></users-main>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import Search from './components/Search'
+import Main from './components/Main'
 export default {
-  data () {
-    return {
-      repoUrl: '',
-      repoName: ''
-    }
-  },
-
-  mounted () {
-    // 发ajax请求,vue-resource
-    const url = 'https://api.github.com/search/repositories?q=v&sort=stars'
-    /* this.$http.get(url).then(
-      response => {
-        // 成功了
-        const result = response.data
-        // 得到最受欢迎的repo
-        const mostRepo = result.items[0]
-        this.repoUrl = mostRepo.html_url
-        this.repoName = mostRepo.name
-      },
-      reponse => {
-        alert('请求失败')
-      }
-    ) */
-
-    // 使用axios
-    axios.get(url).then(response => {
-      // 成功了
-      const result = response.data
-      // 得到最受欢迎的repo
-      const mostRepo = result.items[0]
-      this.repoUrl = mostRepo.html_url
-      this.repoName = mostRepo.name
-    // eslint-disable-next-line
-    }).catch(error => {
-      alert('请求失败2')
-    })
+  components: {
+    Search,
+    UsersMain: Main
   }
 }
 </script>
 
-<style scoped>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style>
+.card {
+  float:left;
+  width: 33.333%;
+  padding: .75rem;
+  margin-bottom: 2rem;
+  border: 1px solid #efefef;
+  text-align: center;
+}
 
+.card > img {
+  margin-bottom: .75rem;
+  border-radius: 100px;
+}
+
+.card-text {
+  font-size: 85%;
+}
 </style>
