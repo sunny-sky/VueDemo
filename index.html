@@ -2,22 +2,14 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1, maximun-scale=1,
-        minimum-scale=1,user-scalable=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" href="./static/css/bootstrap.css">
     <title>vue_demo</title>
-    <script src="https://as/alipayobjects.com/g/component/fastclick.js"></script>
-    <script>
-      if ('addEventListener' in document) {
-        document.addEventListener('DOMContentLoaded', function() {
-          FastClick.attach(document.body);
-        }, false)
+    <style>
+      .router-link-active {
+        color: red !important;
       }
-      if (!window.Promise) {
-        document.writeln('<script src="https://as/alipayobjects.com/g/component/es6-promise/3.2.2/es6-promise.min.js"'
-            +'>'+'<'+'/'+'script>');
-      }
-    </script>
+    </style>
   </head>
   <body>
     <div id="app"></div>

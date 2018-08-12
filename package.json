@@ -15,7 +15,8 @@
     "mint-ui": "^2.2.13",
     "pubsub-js": "^1.6.0",
     "vue": "^2.5.2",
-    "vue-resource": "^1.5.1"
+    "vue-resource": "^1.5.1",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
