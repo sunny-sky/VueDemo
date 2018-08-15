@@ -1,27 +1,25 @@
 <template>
   <div>
+    <p>ID:{{$route.params.id}}</p>
     <ul>
-      <li v-for="message in messages" :key="message.id">
-        <router-link :to="`/home/message/detail/${message.id}`">{{message.title}}</router-link>
-      </li>
+      <li>id:{{messageDetail.id}}</li>
+      <li>title:{{messageDetail.title}}</li>
+      <li>content:{{messageDetail.content}}</li>
     </ul>
-    <hr>
-    <router-view></router-view>
   </div>
 </template>
 
 <script>
+
 export default {
   data () {
     return {
-      messages: []
+      messageDetail: {}
     }
   },
-
   mounted () {
-    // 模拟ajax请求从后台获取数据
     setTimeout(() => {
-      const messages = [
+      const allMessageDetails = [
         {
           id: 1,
           title: 'massage001',
@@ -43,8 +41,16 @@ export default {
           content: 'message004 content'
         }
       ]
-      this.messages = messages
+      this.allMessageDetail = allMessageDetails
+      const id = this.$route.params.id * 1
+      this.messageDetail = allMessageDetails.find(detail => detail.id === id)
     }, 1000)
+  },
+  watch: {
+    $route: function (value) { // 路由路径变化param
+      const id = value.params.id * 1
+      this.messageDetail = this.allMessageDetail.find(detail => detail.id === id)
+    }
   }
 }
 </script>
