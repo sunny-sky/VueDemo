@@ -1,28 +1,10 @@
 <template>
   <div>
-    <div class="row">
-      <div class="col-xs-offset-2 col-xs-8">
-        <div class="page-header"><h2>Router Basic - 01</h2></div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-xs-2 col-xs-offset-2">
-        <div class="list-group">
-          <router-link to="/about" class="list-group-item">About</router-link>
-          <router-link to="/home" class="list-group-item">Home</router-link>
-        </div>
-      </div>
-      <div class="col-xs-6">
-        <div class="panel">
-          <div class="panel-body">
-            <keep-alive>
-              <router-view msg="msg"></router-view>
-            </keep-alive>
-          </div>
-        </div>
-      </div>
-    </div>
+    <p>click {{count}} times, count is {{eventOrOdd}}</p>
+    <button @click="increment">+</button>
+    <button @click="decrement">-</button>
+    <button @click="incrementIfOdd">increment if odd</button>
+    <button @click="incrementAsync">increment async</button>
   </div>
 </template>
 
@@ -30,7 +12,37 @@
 export default {
   data () {
     return {
-      msg: 'abc'
+      count: 0
+    }
+  },
+
+  computed: {
+    eventOrOdd () {
+      return this.count % 2 === 0 ? '偶数' : '奇数'
+    }
+  },
+
+  methods: {
+    // 增加
+    increment () {
+      const count = this.count
+      this.count = count + 1
+    },
+    decrement () {
+      const count = this.count
+      this.count = count - 1
+    },
+    incrementIfOdd () {
+      const count = this.count
+      if (count % 2 === 1) {
+        this.count = count + 1
+      }
+    },
+    incrementAsync () {
+      setTimeout(() => {
+        const count = this.count
+        this.count = count + 1
+      }, 500)
     }
   }
 }
