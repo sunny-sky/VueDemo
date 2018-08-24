@@ -7,7 +7,7 @@
 
 # VueDemo
 ## 1. 项目描述
-    1. 来自bilibili视频https://www.bilibili.com/video/av24099073 的实践
+    1. 来自bilibili视频[尚硅谷_Vue核心技术](https://www.bilibili.com/video/av24099073)的实践
     2. 项目中提供静态文件供学习使用，其他内容建议自行实现
     3. 各src-XXX文件改为src并配置正确index.html后均运行
 
