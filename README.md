@@ -1,8 +1,8 @@
 <p align="center"><a href="https://vuejs.org" target="_blank" rel="noopener noreferrer"><img width="100" src="https://vuejs.org/images/logo.png" alt="Vue logo"></a></p>
 
-<p align="center">
-  <a><img src="https://img.shields.io/github/size/webcaetano/craft/build/phaser-craft.min.js.svg" alt="fileSize"></a>
-</p>
+<div align="center">
+  ![125Mb](https://img.shields.io/github/size/webcaetano/craft/build/phaser-craft.min.js.svg)
+</div>
 
 # VueDemo
 # 1. 项目描述
